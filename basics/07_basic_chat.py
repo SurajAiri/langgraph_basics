@@ -12,9 +12,12 @@ llm = ChatGoogleGenerativeAI(
     temperature=0.4,
 )
 
+
 class ChatState(TypedDict):
     """State for the chat agent"""
+
     messages: list[BaseMessage]
+
 
 def chat_node(state: ChatState) -> ChatState:
     """Node to handle chat messages"""
@@ -30,7 +33,7 @@ def chat_node(state: ChatState) -> ChatState:
 graph = StateGraph(ChatState)
 
 # define nodes
-graph.add_node("chat",chat_node)
+graph.add_node("chat", chat_node)
 
 # define edges
 graph.add_edge(START, "chat")
@@ -41,6 +44,7 @@ app = graph.compile()
 
 # view the graph
 from IPython.display import display, Image
+
 display(Image(app.get_graph().draw_mermaid_png()))
 
 
@@ -48,7 +52,7 @@ display(Image(app.get_graph().draw_mermaid_png()))
 user_input = input("You: ")
 
 state = ChatState(messages=[SystemMessage(content="You are a helpful assistant.")])
-while user_input.lower() not in ["exit", "quit",'bye','q']:
+while user_input.lower() not in ["exit", "quit", "bye", "q"]:
     state["messages"].append(HumanMessage(content=user_input))
     state = app.invoke(state)
     print(f"AI: {state['messages'][-1].content}")

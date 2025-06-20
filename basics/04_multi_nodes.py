@@ -1,6 +1,7 @@
 from langgraph.graph import StateGraph, START, END
 from typing import TypedDict
 
+
 class AgentState(TypedDict):  # schema for state
     """State for the agent"""
 
@@ -31,7 +32,10 @@ graph.add_edge("compliment", END)
 
 app = graph.compile()
 from IPython.display import Image, display
+
 display(Image(app.get_graph().draw_mermaid_png()))
 
 res = app.invoke({"name": "John"})
-print(res)  # {'name': 'John', 'output': 'hey John, how are you? hey John, You really have a great name!'}
+print(
+    res
+)  # {'name': 'John', 'output': 'hey John, how are you? hey John, You really have a great name!'}

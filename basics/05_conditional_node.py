@@ -13,22 +13,24 @@ class AgentState(TypedDict):  # schema for state
 
 def adder(state: AgentState) -> AgentState:
     """This is a simple adder node"""
-    state['result'] = state['num1'] + state['num2']
+    state["result"] = state["num1"] + state["num2"]
     return state
+
 
 def subtractor(state: AgentState) -> AgentState:
     """This is a simple subtractor node"""
-    state['result'] = state['num1'] - state['num2']
+    state["result"] = state["num1"] - state["num2"]
     return state
 
 
 def operation_router(state: AgentState) -> str:
     """This node routes to adder or subtractor based on the operation"""
-    if state['operation'] == '+':
-        return 'adder'
-    if state['operation'] == '-':
-        return 'subtractor'
+    if state["operation"] == "+":
+        return "adder"
+    if state["operation"] == "-":
+        return "subtractor"
     raise ValueError(f"Unknown operation: {state['operation']}")
+
 
 graph = StateGraph(AgentState)
 
@@ -39,13 +41,7 @@ graph.add_node("subtractor", subtractor)
 # graph.add_edge(START, "operation_router")
 
 graph.add_conditional_edges(
-
-    START, 
-    operation_router,
-    {
-        "adder": "adder",
-        "subtractor": "subtractor"
-    }
+    START, operation_router, {"adder": "adder", "subtractor": "subtractor"}
 )
 
 graph.add_edge("adder", END)
@@ -54,6 +50,7 @@ graph.add_edge("subtractor", END)
 app = graph.compile()
 
 from IPython.display import Image, display
+
 # Use format="png" for better quality and set options to show edge labels
 display(Image(app.get_graph().draw_mermaid_png()))
 
