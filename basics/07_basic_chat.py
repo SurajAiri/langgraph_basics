@@ -1,8 +1,9 @@
-from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
-from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
-from langgraph.graph import StateGraph, START, END
 from typing import TypedDict
+
 from dotenv import load_dotenv
+from langchain_core.messages import AIMessage, BaseMessage, HumanMessage, SystemMessage
+from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
+from langgraph.graph import END, START, StateGraph
 
 load_dotenv()
 
@@ -43,7 +44,7 @@ graph.add_edge("chat", END)
 app = graph.compile()
 
 # view the graph
-from IPython.display import display, Image
+from IPython.display import Image, display
 
 display(Image(app.get_graph().draw_mermaid_png()))
 
